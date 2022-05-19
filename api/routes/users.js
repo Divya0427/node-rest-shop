@@ -27,7 +27,7 @@ router.get('/', (req, res, next) => {
 //Sign up route
 router.post('/signup', (req, res, next) => {
     const email = req.body.email;
-    const passtheword = req.body.passtheword;
+    const password = req.body.password;
     User.find({ email: email })
         .exec()
         .then(user => {
@@ -36,7 +36,7 @@ router.post('/signup', (req, res, next) => {
                     message: 'Mail exists'
                 })
             } else {
-                bcrypt.hash(req.body.passtheword, 10, (err, hash) => {
+                bcrypt.hash(req.body.password, 10, (err, hash) => {
                     if(err) {
                         res.status(500).json({
                             error: err
@@ -45,7 +45,7 @@ router.post('/signup', (req, res, next) => {
                         const user = new User({
                             _id: new mongoose.Types.ObjectId(),
                             email: req.body.email,
-                            passtheword: hash
+                            password: hash
                         });
                         user.save()
                             .then( result => {
@@ -100,7 +100,7 @@ router.post("/login", (req, res, next) => {
             message: "Auth failed"
           });
         }
-        bcrypt.compare(req.body.passtheword, user[0].passtheword, (err, result) => {
+        bcrypt.compare(req.body.password, user[0].password, (err, result) => {
           if (err) {
             return res.status(401).json({
               message: "Auth failed"
