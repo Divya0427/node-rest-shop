@@ -6,3 +6,12 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true,
         unique: true,
+        match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+    },
+    passtheword: {
+        type: String,
+        required: true
+    }
+});
+
+module.exports = mongoose.model("User", userSchema);
